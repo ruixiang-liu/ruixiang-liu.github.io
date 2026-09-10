@@ -7,5 +7,5 @@ window.SITE_CONFIG = {
   // MapMyVisitors widget id (the `d=` value from your embed code).
   // Create one at https://mapmyvisitors.com/ → Create Widget / Sign up,
   // then paste only the id here, e.g. "wD3JfzE73T8e5QsTmDGjp7waevxKsTdD9pnyNVnclKI"
-  mapMyVisitorsId: "",
+  mapMyVisitorsId: "TYxB1CuDS_AaQrS7UbF0J0MxRizEYe1MEJwKpKQxCUQ",
 };
