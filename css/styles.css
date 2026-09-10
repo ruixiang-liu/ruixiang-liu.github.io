@@ -195,12 +195,19 @@ main {
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 1.5rem;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.75rem;
   min-height: calc(100svh - var(--header-h) - 2rem);
-  padding: 1.75rem 0 1.5rem;
+  padding: 1.75rem 0 1.75rem;
+}
+
+.hero-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 13.75rem;
+  gap: 1.75rem 2.25rem;
+  align-items: start;
 }
 
 .hero-wide {
@@ -280,6 +287,8 @@ main {
 
 .hero-visual {
   position: relative;
+  width: 13.75rem;
+  margin: 0.15rem 0 0;
   border: 1px solid rgba(13, 79, 122, 0.28);
   background: var(--panel-dark);
   overflow: hidden;
@@ -365,9 +374,9 @@ main {
 
 .hero-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0.65rem;
-  margin-top: 1.35rem;
+  margin-top: 0;
 }
 
 .hero-stat {
@@ -1730,11 +1739,15 @@ body.site-editing main.is-site-editing a {
 .hero-lede { animation-delay: 0.16s; }
 .hero-affiliation { animation-delay: 0.2s; }
 .hero-actions { animation-delay: 0.24s; }
-.hero-stats { animation-delay: 0.3s; }
+.hero-stats { opacity: 0; animation: rise 0.7s var(--ease) 0.3s forwards; }
 .hero-visual { opacity: 0; animation: rise 0.8s var(--ease) 0.18s forwards; }
 
 @media (max-width: 1100px) {
   .hero-wide .hero-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hero-stats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
@@ -1754,12 +1767,32 @@ body.site-editing main.is-site-editing a {
   .hero {
     min-height: auto;
     padding-top: 1.25rem;
+    gap: 1.35rem;
+  }
+
+  .hero-intro {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 1.15rem;
+  }
+
+  .hero-copy {
+    max-width: 40rem;
+  }
+
+  .hero-affiliation {
+    max-width: none;
+  }
+
+  .hero-actions {
+    justify-content: center;
   }
 
   .hero-visual {
     order: -1;
-    max-width: 17rem;
-    margin: 0 auto;
+    width: 11.5rem;
+    margin: 0;
   }
 
   .media-grid {
