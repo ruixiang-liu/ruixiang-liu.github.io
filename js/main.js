@@ -59,7 +59,6 @@
 
     const cfg = window.SITE_CONFIG || {};
     let id = String(cfg.mapMyVisitorsId || "").trim();
-    // Allow pasting a full embed snippet into the config value.
     const fromSnippet = id.match(/[?&]d=([^&"'>\s]+)/i);
     if (fromSnippet) id = decodeURIComponent(fromSnippet[1]);
 
@@ -82,50 +81,73 @@
     const script = document.createElement("script");
     script.type = "text/javascript";
     script.id = "mapmyvisitors";
+    // t=m keeps pageviews + date visible in the widget payload
     script.src =
       "https://mapmyvisitors.com/map.js?d=" +
       encodeURIComponent(id) +
-      "&cl=ffffff&w=a";
+      "&cl=ffffff&w=a&t=m";
     mount.appendChild(script);
 
-    // MapMyVisitors wraps the map in <a href="mapmyvisitors.com">; keep it display-only.
+    const totals = document.getElementById("visitor-totals");
+    const visitorsEl = () => document.querySelector("#mapmyvisitors-widget .mapmyvisitors-visitors");
+    const dateEl = () => document.querySelector("#mapmyvisitors-widget .mapmyvisitors-date");
+
+    const syncTotals = () => {
+      const visitors = visitorsEl();
+      const date = dateEl();
+      if (!totals || !visitors) return false;
+      const vText = (visitors.textContent || "").replace(/\u00a0/g, " ").trim();
+      if (!vText || /^loading/i.test(vText)) return false;
+      totals.hidden = false;
+      const vOut = totals.querySelector("[data-visitors]");
+      const dOut = totals.querySelector("[data-period]");
+      if (vOut) vOut.textContent = vText;
+      const dText = (date?.textContent || "").replace(/\u00a0/g, " ").trim();
+      if (dOut) dOut.textContent = dText || "All time";
+      return true;
+    };
+
+    // Remove outbound link only; do not block marker hover/click previews.
     const neutralizeWidgetLink = () => {
       const widget = document.getElementById("mapmyvisitors-widget");
       if (!widget) return false;
       widget.removeAttribute("href");
       widget.removeAttribute("target");
-      widget.setAttribute("role", "img");
-      widget.setAttribute("aria-label", "Map of site visitors");
+      widget.setAttribute("aria-label", "Interactive map of site visitors");
       if (!widget.dataset.navBlocked) {
         widget.dataset.navBlocked = "1";
         widget.addEventListener(
           "click",
           (event) => {
+            // Stop only the wrapper <a> navigation; let jvectormap handle markers.
             event.preventDefault();
-            event.stopPropagation();
           },
-          true
+          false
         );
       }
+      // Hide the widget's own tiny overlays; we mirror counts in #visitor-totals.
+      const nativeVisitors = visitorsEl();
+      const nativeDate = dateEl();
+      if (nativeVisitors) nativeVisitors.setAttribute("aria-hidden", "true");
+      if (nativeDate) nativeDate.setAttribute("aria-hidden", "true");
       return true;
     };
 
     let tries = 0;
     const timer = setInterval(() => {
       tries += 1;
-      if (neutralizeWidgetLink() || tries > 40) clearInterval(timer);
-    }, 250);
-
-    mount.addEventListener(
-      "click",
-      (event) => {
-        if (event.target.closest("#mapmyvisitors-widget, .mapmyvisitors-map-container, .jvectormap-marker, .jvectormap-tip")) {
-          event.preventDefault();
-          event.stopPropagation();
+      const ready = neutralizeWidgetLink();
+      if (ready) {
+        syncTotals();
+        const widget = document.getElementById("mapmyvisitors-widget");
+        if (widget && !widget.dataset.totalsObserved) {
+          widget.dataset.totalsObserved = "1";
+          const observer = new MutationObserver(() => syncTotals());
+          observer.observe(widget, { childList: true, subtree: true, characterData: true });
         }
-      },
-      true
-    );
+      }
+      if ((ready && syncTotals()) || tries > 60) clearInterval(timer);
+    }, 300);
   };
 
   mountVisitorMap();

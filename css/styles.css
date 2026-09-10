@@ -1120,6 +1120,49 @@ main {
   font-size: 0.92rem;
 }
 
+.visitor-totals {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.visitor-totals[hidden] {
+  display: none !important;
+}
+
+.visitor-totals .visit-stat {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.85rem 0.9rem;
+  background: #f7fafc;
+}
+
+.visitor-totals .visit-stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.visitor-totals .visit-stat-value {
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.visitor-totals .visit-stat-period {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
 .visitor-map-mount {
   min-height: 180px;
   padding: 0.75rem;
@@ -1135,12 +1178,22 @@ main {
   max-width: 100%;
   height: auto !important;
   margin: 0 auto;
-  cursor: default;
   text-decoration: none !important;
 }
 
+/* Keep map interactive for marker previews; only the outbound link is neutralized in JS. */
 .visitor-map-mount #mapmyvisitors-widget {
-  pointer-events: none;
+  cursor: default;
+}
+
+.visitor-map-mount .mapmyvisitors-visitors,
+.visitor-map-mount .mapmyvisitors-date {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 
 .visitor-map-fallback {
