@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" fill="none" role="img" aria-hidden="true">
+  <rect width="360" height="220" fill="#10283d"/>
+  <g stroke="#3d7ea6" stroke-width="0.5" opacity="0.3">
+    <path d="M0 55H360M0 110H360M0 165H360"/>
+    <path d="M60 0V220M120 0V220M180 0V220M240 0V220M300 0V220"/>
+  </g>
+  <circle cx="90" cy="110" r="18" fill="#1d4e6e" stroke="#9fd0ea" stroke-width="1.5"/>
+  <circle cx="180" cy="70" r="14" fill="#1d4e6e" stroke="#9fd0ea" stroke-width="1.5"/>
+  <circle cx="250" cy="130" r="16" fill="#1d4e6e" stroke="#9fd0ea" stroke-width="1.5"/>
+  <circle cx="300" cy="80" r="11" fill="#1d4e6e" stroke="#7eb8d8" stroke-width="1.2"/>
+  <path d="M108 110H166M192 78L238 120M264 124L290 88" stroke="#c5e4f5" stroke-width="1.4"/>
+  <path d="M84 98l12-8 8 14-14 6z" fill="#e8f4fc" opacity="0.9"/>
+  <text x="16" y="24" fill="#9fd0ea" font-family="ui-monospace,monospace" font-size="10">AUTONOMOUS GIS</text>
+</svg>

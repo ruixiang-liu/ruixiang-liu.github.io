@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" fill="none" role="img" aria-hidden="true">
+  <rect width="360" height="220" fill="#10283d"/>
+  <g stroke="#3d7ea6" stroke-width="0.5" opacity="0.3">
+    <path d="M0 55H360M0 110H360M0 165H360"/>
+    <path d="M60 0V220M120 0V220M180 0V220M240 0V220M300 0V220"/>
+  </g>
+  <path d="M40 160C80 150 100 90 140 100S200 170 240 140 280 70 320 90" stroke="#9fd0ea" stroke-width="2" fill="none"/>
+  <path d="M40 170C90 175 110 130 150 140S210 190 250 165 290 110 330 120" stroke="#7eb8d8" stroke-width="1.4" fill="none" opacity="0.7"/>
+  <circle cx="140" cy="100" r="4" fill="#e8f4fc"/>
+  <circle cx="240" cy="140" r="4" fill="#e8f4fc"/>
+  <circle cx="200" cy="160" r="3.5" fill="#9fd0ea"/>
+  <circle cx="280" cy="88" r="3.5" fill="#7eb8d8"/>
+  <text x="16" y="24" fill="#9fd0ea" font-family="ui-monospace,monospace" font-size="10">HUMAN MOBILITY</text>
+</svg>

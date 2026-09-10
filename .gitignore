@@ -1,0 +1,12 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.tmp
+_tmp_*
+_fix_*.py
+.vscode/
+.idea/
+
+# Local editor backups (never publish)
+*.local.html
+site-content-backup.json

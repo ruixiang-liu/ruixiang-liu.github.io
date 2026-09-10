@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" fill="none" role="img" aria-hidden="true">
+  <rect width="360" height="220" fill="#10283d"/>
+  <g stroke="#3d7ea6" stroke-width="0.5" opacity="0.3">
+    <path d="M0 55H360M0 110H360M0 165H360"/>
+    <path d="M60 0V220M120 0V220M180 0V220M240 0V220M300 0V220"/>
+  </g>
+  <g fill="#1a4560" stroke="#7eb8d8" stroke-width="1">
+    <rect x="70" y="130" width="54" height="36"/>
+    <rect x="78" y="96" width="54" height="36"/>
+    <rect x="86" y="62" width="54" height="36"/>
+    <rect x="160" y="130" width="54" height="36"/>
+    <rect x="168" y="96" width="54" height="36"/>
+    <rect x="176" y="62" width="54" height="36"/>
+    <rect x="250" y="130" width="54" height="36"/>
+    <rect x="258" y="96" width="54" height="36"/>
+    <rect x="266" y="62" width="54" height="36"/>
+  </g>
+  <path d="M50 180H320" stroke="#c5e4f5" stroke-width="1.2"/>
+  <text x="16" y="24" fill="#9fd0ea" font-family="ui-monospace,monospace" font-size="10">DATA CUBE / HPC</text>
+</svg>

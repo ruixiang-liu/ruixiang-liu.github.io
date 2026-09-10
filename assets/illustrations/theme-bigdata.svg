@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" fill="none" role="img" aria-hidden="true">
+  <rect width="360" height="220" fill="#10283d"/>
+  <g stroke="#3d7ea6" stroke-width="0.5" opacity="0.3">
+    <path d="M0 55H360M0 110H360M0 165H360"/>
+    <path d="M60 0V220M120 0V220M180 0V220M240 0V220M300 0V220"/>
+  </g>
+  <rect x="48" y="48" width="70" height="50" fill="#1a4560" stroke="#7eb8d8"/>
+  <rect x="132" y="48" width="70" height="50" fill="#1a4560" stroke="#7eb8d8"/>
+  <rect x="216" y="48" width="70" height="50" fill="#1a4560" stroke="#7eb8d8"/>
+  <rect x="90" y="118" width="70" height="50" fill="#1a4560" stroke="#9fd0ea"/>
+  <rect x="174" y="118" width="70" height="50" fill="#1a4560" stroke="#9fd0ea"/>
+  <path d="M83 98v20h7M167 98v20h7M251 98v20M125 118V98h7M209 118V98" stroke="#c5e4f5" stroke-width="1.2"/>
+  <circle cx="280" cy="150" r="22" stroke="#e8f4fc" stroke-width="1.2" fill="rgba(126,184,216,0.12)"/>
+  <text x="16" y="24" fill="#9fd0ea" font-family="ui-monospace,monospace" font-size="10">BIG DATA / GISCIENCE</text>
+</svg>
