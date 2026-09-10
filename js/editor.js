@@ -220,13 +220,15 @@
       <strong class="edit-toolbar-title">Site editor</strong>
       <button type="button" data-action="toggle">Edit site</button>
       <button type="button" data-action="save" hidden>Save</button>
+      <button type="button" data-action="write-disk" hidden>Write to disk</button>
+      <button type="button" data-action="choose-folder" hidden>Choose folder</button>
       <button type="button" data-action="export-html" hidden>Export page HTML</button>
       <button type="button" data-action="export-json" hidden>Export all backups</button>
       <button type="button" data-action="import-json" hidden>Import backup</button>
       <button type="button" data-action="reset" hidden>Reset page</button>
       <input type="file" accept="application/json,.json" data-import hidden />
     </div>
-    <p class="edit-toolbar-hint">Edit text and images; click any link (DOI, Scholar, etc.) to edit or remove it; use + DOI / + Link on publication rows; delete/add list items; Drag to reorder. Export HTML and replace repo files to publish permanently.</p>
+    <p class="edit-toolbar-hint">Edit text/images/links; add/remove/reorder items. <strong>Write to disk</strong> overwrites the local HTML in your project folder (Chrome/Edge). Choose folder once, then one click each time. Ctrl+Shift+S also writes.</p>
   `;
   document.body.appendChild(toolbar);
 
@@ -698,18 +700,146 @@
     setButtons();
   };
 
-  const exportHtml = () => {
+  const FS_DB = "rl-site-fs-v1";
+  const FS_STORE = "handles";
+  const FS_DIR_KEY = "project-root";
+
+  const openFsDb = () =>
+    new Promise((resolve, reject) => {
+      const req = indexedDB.open(FS_DB, 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(FS_STORE)) db.createObjectStore(FS_STORE);
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error || new Error("IndexedDB open failed"));
+    });
+
+  const idbGetHandle = async (key) => {
+    const db = await openFsDb();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(FS_STORE, "readonly");
+      const req = tx.objectStore(FS_STORE).get(key);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error);
+    });
+  };
+
+  const idbSetHandle = async (key, value) => {
+    const db = await openFsDb();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(FS_STORE, "readwrite");
+      tx.objectStore(FS_STORE).put(value, key);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  };
+
+  const buildCleanHtml = () => {
     savePage(true);
     stripEditUi(document);
     const clone = document.documentElement.cloneNode(true);
-    clone.querySelectorAll(".edit-toolbar, .edit-toast, .edit-link-dialog, .edit-item-actions, .edit-list-add, .edit-link-add").forEach((el) => el.remove());
+    clone
+      .querySelectorAll(".edit-toolbar, .edit-toast, .edit-link-dialog, .edit-item-actions, .edit-list-add, .edit-link-add")
+      .forEach((el) => el.remove());
     clone.querySelector("body")?.classList.remove("site-editing");
     clone.querySelectorAll(".is-site-editing").forEach((el) => {
       el.classList.remove("is-site-editing");
       el.removeAttribute("contenteditable");
     });
+    clone.querySelectorAll("[spellcheck]").forEach((el) => el.removeAttribute("spellcheck"));
     const html = "<!DOCTYPE html>\n" + clone.outerHTML;
-    const name = (pageKey().slice(STORAGE_PREFIX.length) || "index.html").replace(/\//g, "-");
+    if (editing) mountListControls();
+    return { name: pageName(), html };
+  };
+
+  const ensureProjectDir = async (forcePick = false) => {
+    if (!window.showDirectoryPicker) {
+      toast("Write to disk needs Chrome or Edge");
+      return null;
+    }
+    if (!forcePick) {
+      try {
+        const cached = await idbGetHandle(FS_DIR_KEY);
+        if (cached) {
+          const state = await cached.queryPermission({ mode: "readwrite" });
+          if (state === "granted") return cached;
+          const next = await cached.requestPermission({ mode: "readwrite" });
+          if (next === "granted") return cached;
+        }
+      } catch {
+        // fall through to picker
+      }
+    }
+    try {
+      const dir = await window.showDirectoryPicker({
+        id: "rl-site-root",
+        mode: "readwrite",
+      });
+      await idbSetHandle(FS_DIR_KEY, dir);
+      return dir;
+    } catch (err) {
+      if (err && err.name === "AbortError") toast("Folder selection cancelled");
+      else toast("Could not open project folder");
+      return null;
+    }
+  };
+
+  const writeTextFile = async (dir, fileName, text) => {
+    const handle = await dir.getFileHandle(fileName, { create: true });
+    const writable = await handle.createWritable();
+    await writable.write(text);
+    await writable.close();
+  };
+
+  const writeNewsTop5IntoIndex = async (dir) => {
+    const newsItems = [...document.querySelectorAll("main .news-list > li")]
+      .filter((el) => !el.classList.contains("edit-item-actions"))
+      .slice(0, HOME_NEWS_LIMIT)
+      .map((li) => {
+        const clone = li.cloneNode(true);
+        clone.querySelectorAll(".edit-item-actions, .edit-list-add, .edit-link-add").forEach((el) => el.remove());
+        clone.removeAttribute("draggable");
+        clone.classList.add("reveal", "is-visible");
+        return clone.outerHTML;
+      });
+    if (!newsItems.length) return false;
+
+    const indexHandle = await dir.getFileHandle("index.html");
+    const indexText = await (await indexHandle.getFile()).text();
+    const doc = new DOMParser().parseFromString(indexText, "text/html");
+    const list = doc.querySelector(".home-news-list, main .news-list");
+    if (!list) return false;
+    list.classList.add("home-news-list", "news-list");
+    list.innerHTML = newsItems.join("\n        ");
+    const html = "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
+    await writeTextFile(dir, "index.html", html);
+    return true;
+  };
+
+  const writeToDisk = async (forcePick = false) => {
+    const dir = await ensureProjectDir(forcePick);
+    if (!dir) return;
+    try {
+      const { name, html } = buildCleanHtml();
+      await writeTextFile(dir, name, html);
+      let extra = "";
+      if (name === "news.html") {
+        try {
+          if (await writeNewsTop5IntoIndex(dir)) extra = " + index.html (top 5)";
+        } catch {
+          // index write is best-effort
+        }
+      }
+      toast("Overwrote " + name + extra);
+    } catch (err) {
+      console.error(err);
+      toast("Write failed — choose the site root folder and try again");
+    }
+  };
+
+  const exportHtml = () => {
+    const { name, html } = buildCleanHtml();
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -717,7 +847,6 @@
     a.download = name;
     a.click();
     URL.revokeObjectURL(url);
-    if (editing) mountListControls();
     toast("Downloaded " + name);
   };
 
@@ -778,6 +907,14 @@
     }
     if (action === "save") {
       savePage();
+      return;
+    }
+    if (action === "write-disk") {
+      writeToDisk(false);
+      return;
+    }
+    if (action === "choose-folder") {
+      writeToDisk(true);
       return;
     }
     if (action === "export-html") {
@@ -854,7 +991,8 @@
     if (!editing) return;
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
       event.preventDefault();
-      savePage();
+      if (event.shiftKey) writeToDisk(false);
+      else savePage();
     }
   });
 

@@ -1298,6 +1298,7 @@ main {
 .contact-item[href*="researchgate.net"] .contact-label::before,
 .contact-item[href*="orcid.org"] .contact-label::before,
 .contact-item[href*="linkedin.com"] .contact-label::before,
+.contact-item[href*="github.com"] .contact-label::before,
 .contact-item[href^="mailto:"] .contact-label::before,
 .contact-item[href*="geog.psu.edu"] .contact-label::before,
 .contact-item[href*="giscience.psu.edu"] .contact-label::before,
@@ -1365,6 +1366,10 @@ main {
 .contact-item[href*="linkedin.com"],
 .hero-actions a[href*="linkedin.com"] {
   --link-icon: url("../assets/icons/linkedin.svg");
+}
+
+.contact-item[href*="github.com"] {
+  --link-icon: url("../assets/icons/github.svg");
 }
 
 .hero-actions a[href^="mailto:"],

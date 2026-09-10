@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" fill="none" role="img" aria-hidden="true">
+  <rect width="360" height="220" fill="#10283d"/>
+  <g stroke="#3d7ea6" stroke-width="0.5" opacity="0.3">
+    <path d="M0 55H360M0 110H360M0 165H360"/>
+    <path d="M60 0V220M120 0V220M180 0V220M240 0V220M300 0V220"/>
+  </g>
+  <rect x="88" y="58" width="120" height="150" rx="2" fill="#1a4560" stroke="#7eb8d8" transform="rotate(-6 148 133)"/>
+  <rect x="118" y="48" width="120" height="150" rx="2" fill="#1a4560" stroke="#9fd0ea" transform="rotate(2 178 123)"/>
+  <rect x="148" y="42" width="120" height="150" rx="2" fill="#16384f" stroke="#c5e4f5"/>
+  <path d="M164 72H248M164 92H236M164 112H244M164 132H220" stroke="#9fd0ea" stroke-width="2" opacity="0.85"/>
+  <rect x="164" y="148" width="56" height="18" rx="1" fill="#e8f4fc" opacity="0.9"/>
+  <text x="16" y="24" fill="#9fd0ea" font-family="ui-monospace,monospace" font-size="10">GEOAI STANDARDS</text>
+</svg>

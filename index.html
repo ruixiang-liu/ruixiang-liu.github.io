@@ -8,12 +8,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,500&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
-<body data-page="home">
+<body data-page="home" class="">
   <div class="atmosphere" aria-hidden="true"></div>
 
-  <header class="site-header">
+  <header class="site-header is-scrolled">
     <a class="logo" href="index.html">Ruixiang Liu</a>
     <nav class="nav" aria-label="Primary">
       <a class="is-active" href="index.html">Home</a>
@@ -29,13 +29,13 @@
     </button>
   </header>
 
-  <main>
+  <main class="">
     <section class="hero">
       <div class="hero-copy">
         <p class="hero-role">Ph.D. Student · Geography · The Pennsylvania State University</p>
         <h1 class="hero-name">Ruixiang Liu</h1>
         <p class="hero-lede">
-          Research on <em>Autonomous GIS</em>, GeoAI, and high-performance geocomputing—linking GIScience, spatial reasoning, and human mobility analytics.
+          Research on <em>Autonomous GIS</em>, GeoAI, and high-performance geocomputing— linking GIScience, spatial reasoning, and human mobility analytics.
         </p>
         <p class="hero-affiliation">
           Geoinformation and Big Data Research Laboratory (GIBD), advised by Prof. Zhenlong Li.
@@ -43,7 +43,7 @@
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="about.html">About</a>
-          <a class="btn btn-ghost" href="assets/cv.pdf">Curriculum Vitae</a>
+          <a class="btn btn-ghost" href="assets/Ruixiang_CV.pdf">Curriculum Vitae</a>
           <a class="btn btn-ghost" href="mailto:ruixiangliu@psu.edu">Email</a>
           <a class="btn btn-ghost" href="https://scholar.google.com/citations?user=6Z0lrPoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a>
           <a class="btn btn-ghost" href="https://www.researchgate.net/profile/Ruixiang-Liu-2" target="_blank" rel="noopener">ResearchGate</a>
@@ -148,18 +148,15 @@
             Organized / chaired multiple sessions at AAG 2026 (San Francisco) on Generative AI,
             Autonomous GIS, and spatial AI &amp; data science.
           </p>
-        </li>
-        <li class="reveal is-visible">
+        </li><li class="reveal is-visible">
           <time datetime="2026-01">Jan 2026</time>
           <p>
             Serving as teaching assistant for GEOG 1N: Global Parks and Sustainability (Spring 2026).
           </p>
-        </li>
-        <li class="reveal is-visible">
+        </li><li class="reveal is-visible">
           <time datetime="2025-11">Nov 2025</time>
           <p>GIS Day Lightning Talk at Penn State on RTGDC and Earth digital twins.</p>
-        </li>
-      </ul>
+        </li></ul>
     </section>
 
   </main>
@@ -169,5 +166,6 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/site-config.js"></script>
   <script src="js/editor.js"></script>
 </body></html>
