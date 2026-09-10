@@ -1135,6 +1135,12 @@ main {
   max-width: 100%;
   height: auto !important;
   margin: 0 auto;
+  cursor: default;
+  text-decoration: none !important;
+}
+
+.visitor-map-mount #mapmyvisitors-widget {
+  pointer-events: none;
 }
 
 .visitor-map-fallback {

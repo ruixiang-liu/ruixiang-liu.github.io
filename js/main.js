@@ -87,6 +87,45 @@
       encodeURIComponent(id) +
       "&cl=ffffff&w=a";
     mount.appendChild(script);
+
+    // MapMyVisitors wraps the map in <a href="mapmyvisitors.com">; keep it display-only.
+    const neutralizeWidgetLink = () => {
+      const widget = document.getElementById("mapmyvisitors-widget");
+      if (!widget) return false;
+      widget.removeAttribute("href");
+      widget.removeAttribute("target");
+      widget.setAttribute("role", "img");
+      widget.setAttribute("aria-label", "Map of site visitors");
+      if (!widget.dataset.navBlocked) {
+        widget.dataset.navBlocked = "1";
+        widget.addEventListener(
+          "click",
+          (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+          },
+          true
+        );
+      }
+      return true;
+    };
+
+    let tries = 0;
+    const timer = setInterval(() => {
+      tries += 1;
+      if (neutralizeWidgetLink() || tries > 40) clearInterval(timer);
+    }, 250);
+
+    mount.addEventListener(
+      "click",
+      (event) => {
+        if (event.target.closest("#mapmyvisitors-widget, .mapmyvisitors-map-container, .jvectormap-marker, .jvectormap-tip")) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      },
+      true
+    );
   };
 
   mountVisitorMap();
