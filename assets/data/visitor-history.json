@@ -4,7 +4,7 @@
     "name": "MapMyVisitors",
     "url": "https://mapmyvisitors.com/web/1c852"
   },
-  "generatedAt": "2026-11-12T03:58:41Z",
+  "generatedAt": "2026-11-12T18:28:47Z",
   "rangeStart": "2026-09-10",
   "rangeEnd": "2026-11-12",
   "providerRangeStart": "2026-01-01",
@@ -23,5 +23,5 @@
       "visits": 9
     }
   ],
-  "unlocatedVisits": 93
+  "unlocatedVisits": 108
 }
