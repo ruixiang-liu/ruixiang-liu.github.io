@@ -7,30 +7,39 @@
   <title>Contact · Ruixiang Liu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=20261111-history-map" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://ruixiang-liu.github.io/contact.html">
+  <meta name="theme-color" content="#faf9f6">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact · Ruixiang Liu">
+  <meta property="og:description" content="Contact Ruixiang Liu — email, office, and academic profiles.">
+  <meta property="og:url" content="https://ruixiang-liu.github.io/contact.html">
+  <meta property="og:image" content="https://ruixiang-liu.github.io/assets/portrait.jpg">
+  <meta property="og:image:alt" content="Ruixiang Liu">
 </head>
 <body data-page="contact">
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="atmosphere" aria-hidden="true"></div>
 
   <header class="site-header">
-    <a class="logo" href="index.html">Ruixiang Liu</a>
-    <nav class="nav" aria-label="Primary">
+    <a class="logo" href="index.html">Ruixiang Liu<span class="logo-field">Geography &amp; GIScience</span></a>
+    <nav class="nav" id="primary-nav" aria-label="Primary">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="research.html">Research</a>
       <a href="publications.html">Publications</a>
       <a href="teaching.html">Teaching</a>
       <a href="news.html">News</a>
-      <a class="is-active" href="contact.html">Contact</a>
+      <a class="is-active" aria-current="page" href="contact.html">Contact</a>
     </nav>
-    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav">
       <span></span><span></span>
     </button>
   </header>
 
-  <main>
+  <main id="main-content">
     <header class="page-hero">
       <div class="page-hero-copy">
         <h1>Contact</h1>
@@ -88,7 +97,7 @@
             Ruixiang Liu<br />
             Geoinformation and Big Data Research Laboratory<br />
             205 Walker Building<br />
-            University Park, PA 16802, USA
+            State College, PA 16803, USA
           </address>
           <p class="page-more"><a href="assets/Ruixiang_CV.pdf">Download CV (PDF) →</a></p>
         </div>
@@ -109,19 +118,15 @@
           <div class="visitor-map">
             <div class="visitor-map-head">
               <h2>Global visitors</h2>
-              <p>Live visitor map via MapMyVisitors</p>
+              <p>Visitors from around the world</p>
             </div>
-            <div class="visitor-totals" id="visitor-totals" hidden>
-              <div class="visit-stat">
-                <span class="visit-stat-label">Total visits</span>
-                <strong class="visit-stat-value" data-visitors>—</strong>
+            <div class="visitor-map-mount" id="visitor-map-mount">
+              <div class="visitor-history-map" role="group" aria-label="Historical visitor locations">
+                <img src="assets/maps/world.svg" alt="" width="960" height="480" aria-hidden="true">
               </div>
-              <div class="visit-stat">
-                <span class="visit-stat-label">Period</span>
-                <strong class="visit-stat-value visit-stat-period" data-period>—</strong>
-              </div>
+              <p class="visitor-map-fallback" hidden><a href="https://mapmyvisitors.com/web/1c852" target="_blank" rel="noopener">View visitor map ↗</a></p>
+              <noscript><p><a href="https://mapmyvisitors.com/web/1c852" target="_blank" rel="noopener">View visitor map ↗</a></p></noscript>
             </div>
-            <div class="visitor-map-mount" id="visitor-map-mount"></div>
           </div>
         </aside>
       </div>
@@ -129,11 +134,12 @@
   </main>
 
   <footer class="site-footer">
-    <p>© <span id="year"></span> Ruixiang Liu</p>
+    <p>© <span id="year">2026</span> Ruixiang Liu · Penn State</p>
+    <div class="footer-links"><a href="assets/Ruixiang_CV.pdf">CV · November 2026</a><a href="mailto:ruixiangliu@psu.edu">Email ↗</a></div>
   </footer>
 
-  <script src="js/site-config.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/editor.js"></script>
+  <script src="js/site-config.js?v=20261111"></script>
+  <script src="js/main.js?v=20261111-history-map"></script>
+  <script src="js/editor.js?v=20261111"></script>
 </body>
 </html>

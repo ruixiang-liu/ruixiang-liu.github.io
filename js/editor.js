@@ -1,12 +1,12 @@
 (() => {
   // Production (GitHub Pages): editor stays off; Home still syncs News top 5.
-  // Local preview (localhost / 127.0.0.1): editor is available.
+  // Local preview: add ?edit=1 to open the editor; ordinary preview reads disk content.
   // Set FORCE_ENABLE_EDITOR to true only if you temporarily need editing on a live URL.
   const FORCE_ENABLE_EDITOR = false;
   const ENABLE_EDITOR =
     FORCE_ENABLE_EDITOR ||
-    location.hostname === "localhost" ||
-    location.hostname === "127.0.0.1";
+    (["localhost", "127.0.0.1"].includes(location.hostname) &&
+      new URLSearchParams(location.search).get("edit") === "1");
 
   const STORAGE_PREFIX = "rl-site-edit:";
   const MODE_KEY = "rl-site-edit-mode";
@@ -78,12 +78,12 @@
     if (document.body.getAttribute("data-page") !== "home") return;
 
     let items = [];
-    const storedNews = localStorage.getItem(STORAGE_PREFIX + "news.html");
+    const storedNews = ENABLE_EDITOR ? localStorage.getItem(STORAGE_PREFIX + "news.html") : null;
     if (storedNews) {
       const data = parsePageSnapshot(storedNews);
       items = newsItemsFromMainHtml(data?.main || "");
     }
-    if (!items.length) {
+    if (ENABLE_EDITOR && !items.length) {
       const feed = localStorage.getItem(NEWS_FEED_KEY);
       if (feed) {
         try {

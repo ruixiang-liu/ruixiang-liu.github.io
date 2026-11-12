@@ -7,121 +7,149 @@
   <title>Research · Ruixiang Liu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=20261111" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://ruixiang-liu.github.io/research.html">
+  <meta name="theme-color" content="#faf9f6">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Research · Ruixiang Liu">
+  <meta property="og:description" content="Research interests of Ruixiang Liu — Autonomous GIS, GeoAI, high-performance geocomputing, and human mobility.">
+  <meta property="og:url" content="https://ruixiang-liu.github.io/research.html">
+  <meta property="og:image" content="https://ruixiang-liu.github.io/assets/portrait.jpg">
+  <meta property="og:image:alt" content="Ruixiang Liu">
 </head>
 <body data-page="research">
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="atmosphere" aria-hidden="true"></div>
 
   <header class="site-header">
-    <a class="logo" href="index.html">Ruixiang Liu</a>
-    <nav class="nav" aria-label="Primary">
+    <a class="logo" href="index.html">Ruixiang Liu<span class="logo-field">Geography &amp; GIScience</span></a>
+    <nav class="nav" id="primary-nav" aria-label="Primary">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
-      <a class="is-active" href="research.html">Research</a>
+      <a class="is-active" aria-current="page" href="research.html">Research</a>
       <a href="publications.html">Publications</a>
       <a href="teaching.html">Teaching</a>
       <a href="news.html">News</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav">
       <span></span><span></span>
     </button>
   </header>
 
-  <main>
+  <main id="main-content">
     <header class="page-hero">
       <div class="page-hero-copy">
         <h1>Research</h1>
         <p class="page-lede">
-          Themes spanning Autonomous GIS, spatial reasoning, geospatial big data, and human mobility.
+          My research connects geospatial data discovery, scalable computing, and mobility analysis,
+          with a focus on knowledge graph-driven agents for Autonomous GIS.
         </p>
       </div>
     </header>
 
     <section class="section section-flush">
       <div class="theme-list">
-        <article class="theme-item reveal">
+        <article class="theme-item reveal" id="autonomous-gis">
           <figure>
-            <img src="assets/pics/Research-1.png" alt="Autonomous GIS and spatial reasoning" width="360" height="220" />
+            <img loading="lazy" decoding="async" src="assets/pics/Research-1.png" alt="Autonomous GIS and spatial reasoning" width="360" height="220" />
           </figure>
           <div class="theme-copy">
             <span class="theme-index">01 / AUTONOMOUS GIS</span>
             <h3>Autonomous GIS &amp; Spatial Reasoning</h3>
             <p>
-              Agentic systems that interpret geospatial tasks, reason over space, and support
-              automated GIS workflows.
+              I study how large language models and multi-agent systems can support geospatial
+              data discovery and retrieval. Current work includes GeoAutoRetriever and a systematic
+              review of spatial reasoning in large language models, both in preparation.
             </p>
+            <p class="page-more"><a href="publications.html#intelligent-data-discovery">Intelligent geospatial data discovery · IJGIS, 2026 →</a></p>
+            <p class="page-more"><a href="publications.html#manuscripts-in-progress">Work in progress →</a></p>
           </div>
         </article>
 
-        <article class="theme-item reveal">
+        <article class="theme-item reveal" id="giscience">
           <figure>
-            <img src="assets/pics/Research-2.png" alt="GIScience and big data analytics" width="360" height="220" />
+            <img loading="lazy" decoding="async" src="assets/pics/Research-2.png" alt="GIScience and big data analytics" width="360" height="220" />
           </figure>
           <div class="theme-copy">
             <span class="theme-index">02 / GISCIENCE</span>
             <h3>GIScience &amp; Big Data Analytics</h3>
             <p>
-              Methods and infrastructures for analyzing large, heterogeneous geospatial datasets
-              at scale.
+              My work on the Open Geospatial Engine (OGE) examines analysis-ready spatial data
+              infrastructure and geospatial services. Related studies address spatiotemporal data
+              governance for intelligent connected vehicles.
             </p>
+            <p class="page-more"><a href="publications.html#oge">Analysis-readiness through OGE · IJRS, 2026 →</a></p>
           </div>
         </article>
 
-        <article class="theme-item reveal">
+        <article class="theme-item reveal" id="geocomputing">
           <figure>
-            <img src="assets/pics/Research-3.png" alt="High-performance geo-computing and data cubes" width="360" height="220" />
+            <img loading="lazy" decoding="async" src="assets/pics/Research-3.png" alt="High-performance geo-computing and data cubes" width="360" height="220" />
           </figure>
           <div class="theme-copy">
             <span class="theme-index">03 / GEO-COMPUTING</span>
             <h3>High-performance Geo-computing &amp; Data Cubes</h3>
             <p>
-              Parallel and distributed computing to accelerate spatial analysis and geospatial
-              data-cube workflows.
+              I work on real-time ingestion and processing in geospatial data cubes for digital
+              twins of Earth. RTGDC and my work on a cube-enabled cloud geoprocessing engine connect
+              geospatial data management with high-performance computing.
             </p>
+            <p class="page-more"><a href="publications.html#rtgdc">RTGDC · International Journal of Digital Earth, 2024 →</a></p>
           </div>
         </article>
 
-        <article class="theme-item reveal">
+        <article class="theme-item reveal" id="human-mobility">
           <figure>
-            <img src="assets/pics/Research-4.png" alt="Human mobility" width="360" height="220" />
+            <img loading="lazy" decoding="async" src="assets/pics/Research-4.png" alt="Human mobility" width="360" height="220" />
           </figure>
           <div class="theme-copy">
             <span class="theme-index">04 / MOBILITY</span>
             <h3>Human Mobility</h3>
             <p>
-              Spatial analytics of movement patterns and mobility behavior across places and scales.
+              I use mobility data to study responses to heat and the connections between cities.
+              Recent collaborations examine heat thresholds and neighborhood inequality, and use
+              mobility traces to identify gaps in intercity services. A first-author study of
+              mobility responses to U.S. heatwaves is under major revision.
             </p>
+            <p class="page-more"><a href="publications.html#heat-mobility">Heat and neighborhood inequality · Big Earth Data, 2026 →</a></p>
+            <p class="page-more"><a href="publications.html#directional-demand">Directional latent demand · Computational Urban Science, 2026 →</a></p>
           </div>
         </article>
 
-        <article class="theme-item reveal">
+        <article class="theme-item reveal" id="knowledge-graphs">
           <figure>
-            <img src="assets/pics/Research-5.png" alt="Geospatial knowledge graphs" width="360" height="220" />
+            <img loading="lazy" decoding="async" src="assets/pics/Research-5.png" alt="Geospatial knowledge graphs" width="360" height="220" />
           </figure>
           <div class="theme-copy">
             <span class="theme-index">05 / KNOWLEDGE GRAPHS</span>
             <h3>Geospatial Knowledge Graphs</h3>
             <p>
-              Semantic representations that connect geospatial entities, concepts, and relations
-              for discovery and reasoning.
+              Knowledge graphs connect geospatial data sources and support intelligent discovery.
+              This thread runs from identifying links in the Web of data to a knowledge graph-driven
+              multi-agent framework for geospatial data discovery.
             </p>
+            <p class="page-more"><a href="publications.html#linked-geospatial-data">Linking geospatial data sources · ISPRS IJGI, 2024 →</a></p>
           </div>
         </article>
 
-        <article class="theme-item reveal">
+        <article class="theme-item reveal" id="geoai-standards">
           <figure>
-            <img src="assets/pics/Research-6.png" alt="GeoAI standards" width="360" height="220" />
+            <img loading="lazy" decoding="async" src="assets/pics/Research-6.png" alt="GeoAI standards" width="360" height="220" />
           </figure>
           <div class="theme-copy">
             <span class="theme-index">06 / GEOAI STANDARDS</span>
             <h3>GeoAI Standards</h3>
             <p>
-              Interoperability standards and best practices that support geospatial artificial
-              intelligence and machine learning.
+              I contribute to standards for GeoAI training data and geospatial data preservation.
+              I am an editor and submitter of the OGC TrainingDML-AI JSON and XML encoding standards,
+              and a submitter of its conceptual model. Related research addresses GeoAI training data
+              and interoperable geospatial agentic services.
             </p>
+            <p class="page-more"><a href="publications.html#standards">Standards contributions →</a></p>
+            <p class="page-more"><a href="publications.html#geospatial-agentic-services">Geospatial Agentic Services · Annals of GIS, 2026 →</a></p>
           </div>
         </article>
       </div>
@@ -129,11 +157,12 @@
   </main>
 
   <footer class="site-footer">
-    <p>© <span id="year"></span> Ruixiang Liu</p>
+    <p>© <span id="year">2026</span> Ruixiang Liu · Penn State</p>
+    <div class="footer-links"><a href="assets/Ruixiang_CV.pdf">CV · November 2026</a><a href="mailto:ruixiangliu@psu.edu">Email ↗</a></div>
   </footer>
 
-  <script src="js/main.js"></script>
-  <script src="js/site-config.js"></script>
-  <script src="js/editor.js"></script>
+  <script src="js/site-config.js?v=20261111"></script>
+  <script src="js/main.js?v=20261111"></script>
+  <script src="js/editor.js?v=20261111"></script>
 </body>
 </html>

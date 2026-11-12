@@ -16,6 +16,13 @@
   onScroll();
 
   if (toggle && nav) {
+    const closeMenu = (restoreFocus = false) => {
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Open menu");
+      nav.classList.remove("is-open");
+      if (restoreFocus) toggle.focus();
+    };
+
     toggle.addEventListener("click", () => {
       const open = toggle.getAttribute("aria-expanded") === "true";
       toggle.setAttribute("aria-expanded", String(!open));
@@ -25,10 +32,18 @@
 
     navLinks.forEach((link) => {
       link.addEventListener("click", () => {
-        toggle.setAttribute("aria-expanded", "false");
-        toggle.setAttribute("aria-label", "Open menu");
-        nav.classList.remove("is-open");
+        closeMenu();
       });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && nav.classList.contains("is-open")) closeMenu(true);
+    });
+    document.addEventListener("click", (event) => {
+      if (!header.contains(event.target)) closeMenu();
+    });
+    window.matchMedia("(min-width: 761px)").addEventListener("change", (event) => {
+      if (event.matches) closeMenu();
     });
   }
 
@@ -53,101 +68,90 @@
     revealTargets.forEach((el) => el.classList.add("is-visible"));
   }
 
-  const mountVisitorMap = () => {
+  const mountVisitorMap = async () => {
     const mount = document.getElementById("visitor-map-mount");
     if (!mount) return;
 
+    const map = mount.querySelector(".visitor-history-map");
+    const fallback = mount.querySelector(".visitor-map-fallback");
     const cfg = window.SITE_CONFIG || {};
     let id = String(cfg.mapMyVisitorsId || "").trim();
     const fromSnippet = id.match(/[?&]d=([^&"'>\s]+)/i);
     if (fromSnippet) id = decodeURIComponent(fromSnippet[1]);
 
-    mount.innerHTML = "";
-
-    if (!id) {
-      mount.innerHTML = `
-        <div class="visitor-map-fallback">
-          <p><strong>MapMyVisitors</strong> is ready to connect.</p>
-          <ol>
-            <li>Open <a href="https://mapmyvisitors.com/" target="_blank" rel="noopener">mapmyvisitors.com</a> and create a free widget for your site.</li>
-            <li>Copy the embed code (or just the <code>d=</code> id).</li>
-            <li>Paste it into <code>js/site-config.js</code> as <code>mapMyVisitorsId</code>.</li>
-          </ol>
-        </div>
-      `;
-      return;
+    // Continue collecting visits under the same provider ID. The visible map
+    // uses the daily history file because the embedded widget is recent-only.
+    if (id) {
+      const tracker = document.createElement("img");
+      tracker.src = "https://mapmyvisitors.com/map.png?d=" + encodeURIComponent(id);
+      tracker.alt = "";
+      tracker.width = 1;
+      tracker.height = 1;
+      tracker.hidden = true;
+      tracker.setAttribute("aria-hidden", "true");
+      mount.appendChild(tracker);
     }
 
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.id = "mapmyvisitors";
-    // t=m keeps pageviews + date visible in the widget payload
-    script.src =
-      "https://mapmyvisitors.com/map.js?d=" +
-      encodeURIComponent(id) +
-      "&cl=ffffff&w=a&t=m";
-    mount.appendChild(script);
-
-    const totals = document.getElementById("visitor-totals");
-    const visitorsEl = () => document.querySelector("#mapmyvisitors-widget .mapmyvisitors-visitors");
-    const dateEl = () => document.querySelector("#mapmyvisitors-widget .mapmyvisitors-date");
-
-    const syncTotals = () => {
-      const visitors = visitorsEl();
-      const date = dateEl();
-      if (!totals || !visitors) return false;
-      const vText = (visitors.textContent || "").replace(/\u00a0/g, " ").trim();
-      if (!vText || /^loading/i.test(vText)) return false;
-      totals.hidden = false;
-      const vOut = totals.querySelector("[data-visitors]");
-      const dOut = totals.querySelector("[data-period]");
-      if (vOut) vOut.textContent = vText;
-      const dText = (date?.textContent || "").replace(/\u00a0/g, " ").trim();
-      if (dOut) dOut.textContent = dText || "All time";
-      return true;
-    };
-
-    // Remove outbound link only; do not block marker hover/click previews.
-    const neutralizeWidgetLink = () => {
-      const widget = document.getElementById("mapmyvisitors-widget");
-      if (!widget) return false;
-      widget.removeAttribute("href");
-      widget.removeAttribute("target");
-      widget.setAttribute("aria-label", "Interactive map of site visitors");
-      if (!widget.dataset.navBlocked) {
-        widget.dataset.navBlocked = "1";
-        widget.addEventListener(
-          "click",
-          (event) => {
-            // Stop only the wrapper <a> navigation; let jvectormap handle markers.
-            event.preventDefault();
-          },
-          false
-        );
+    try {
+      const response = await fetch("assets/data/visitor-history.json", { cache: "no-cache" });
+      if (!response.ok) throw new Error("Visitor history unavailable");
+      const history = await response.json();
+      if (history.schemaVersion !== 1 || !Array.isArray(history.locations)) {
+        throw new Error("Invalid visitor history");
       }
-      // Hide the widget's own tiny overlays; we mirror counts in #visitor-totals.
-      const nativeVisitors = visitorsEl();
-      const nativeDate = dateEl();
-      if (nativeVisitors) nativeVisitors.setAttribute("aria-hidden", "true");
-      if (nativeDate) nativeDate.setAttribute("aria-hidden", "true");
-      return true;
-    };
 
-    let tries = 0;
-    const timer = setInterval(() => {
-      tries += 1;
-      const ready = neutralizeWidgetLink();
-      if (ready) {
-        syncTotals();
-        const widget = document.getElementById("mapmyvisitors-widget");
-        if (widget && !widget.dataset.totalsObserved) {
-          widget.dataset.totalsObserved = "1";
-          const observer = new MutationObserver(() => syncTotals());
-          observer.observe(widget, { childList: true, subtree: true, characterData: true });
-        }
-      }
-      if ((ready && syncTotals()) || tries > 60) clearInterval(timer);
-    }, 300);
+      map.setAttribute("aria-label", "Recorded visitor locations since " + history.rangeStart);
+      const clearSelection = () => {
+        map.querySelectorAll(".visitor-marker.is-selected").forEach((marker) => {
+          marker.classList.remove("is-selected");
+          marker.setAttribute("aria-expanded", "false");
+        });
+      };
+
+      history.locations.forEach((location) => {
+        const { name, latitude, longitude, visits } = location;
+        if (typeof name !== "string" || !Number.isFinite(latitude) ||
+            !Number.isFinite(longitude) || Math.abs(latitude) > 90 ||
+            Math.abs(longitude) > 180 || !Number.isInteger(visits) || visits < 1 ||
+            /unknown/i.test(name)) return;
+
+        const placeLabel = name.includes(",") ? name : name + " (country-level)";
+        const label = placeLabel + " · " + visits.toLocaleString() + (visits === 1 ? " visit" : " visits");
+        const marker = document.createElement("button");
+        marker.type = "button";
+        marker.className = "visitor-marker";
+        marker.style.left = ((longitude + 180) / 360 * 100) + "%";
+        marker.style.top = ((90 - latitude) / 180 * 100) + "%";
+        marker.style.setProperty("--marker-size", Math.min(13, 5 + Math.sqrt(visits)) + "px");
+        if (longitude < -90) marker.classList.add("label-right");
+        if (longitude > 90) marker.classList.add("label-left");
+        marker.setAttribute("aria-label", label);
+        marker.setAttribute("aria-expanded", "false");
+
+        const tooltip = document.createElement("span");
+        tooltip.className = "visitor-marker-label";
+        tooltip.textContent = label;
+        tooltip.setAttribute("aria-hidden", "true");
+        marker.appendChild(tooltip);
+        marker.addEventListener("click", () => {
+          const open = marker.classList.contains("is-selected");
+          clearSelection();
+          marker.classList.toggle("is-selected", !open);
+          marker.setAttribute("aria-expanded", String(!open));
+        });
+        map.appendChild(marker);
+      });
+
+      map.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") clearSelection();
+      });
+      document.addEventListener("click", (event) => {
+        if (!event.target.closest(".visitor-marker")) clearSelection();
+      });
+    } catch (error) {
+      if (fallback) fallback.hidden = false;
+      console.warn("Visitor history could not be loaded:", error.message);
+    }
   };
 
   mountVisitorMap();

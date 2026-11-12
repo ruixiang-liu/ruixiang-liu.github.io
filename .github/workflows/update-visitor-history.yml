@@ -1,0 +1,56 @@
+name: Update historical visitor map
+
+on:
+  schedule:
+    # Daily at 10:23 UTC; avoid the top of the hour when runners are busiest.
+    - cron: '23 10 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: update-visitor-history
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Fetch and validate complete visitor history
+        run: python tools/update-visitor-history.py
+
+      - name: Commit only the aggregated location data
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- assets/data/visitor-history.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update historical visitor locations'
+            git push origin "HEAD:$DEFAULT_BRANCH"
+          fi
+
+      # Commits made with GITHUB_TOKEN do not trigger native branch Pages builds.
+      # Explicitly rebuild the configured branch site without changing its source.
+      - name: Request a GitHub Pages rebuild
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST \
+            -H 'Accept: application/vnd.github+json' \
+            -H 'X-GitHub-Api-Version: 2026-03-10' \
+            "repos/$GITHUB_REPOSITORY/pages/builds"
